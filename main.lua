@@ -13,7 +13,9 @@ function love.load()
         --StartScreen Start
         ['start'] = function() return StartState() end,
         --Play State
-        ['play'] = function() return PlayState() end
+        ['play'] = function() return PlayState() end,
+        --Victory State
+        ['victory'] = function () return VictoryState()end
     }
     --Grapgucs
     love.graphics.setDefaultFilter('nearest', 'nearest')

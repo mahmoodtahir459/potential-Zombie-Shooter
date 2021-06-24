@@ -5,7 +5,9 @@ StartState = Class{__includes = BaseState}
 function StartState:update(dt)
     --If Enter Was pressed then change state to Play
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        gStateMachine:change('play')
+        gStateMachine:change('play', {
+            level = 1
+        })
     end
     --If escape is Pressed Quit Game
     if love.keyboard.wasPressed('escape') then

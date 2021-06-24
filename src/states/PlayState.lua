@@ -1,11 +1,11 @@
 PlayState = Class{__includes = BaseState}
 
 --Initilize the playState
-function PlayState:init()
+function PlayState:enter(params)
     --Declare a Zombie table
     self.zombs = {}
     --Set the Current Level
-    self.level = 1
+    self.level = params.level
     --Get the diffculty for the Level
     local diffculty = math.random(6, 10) * self.level
     --Add Zombies to table
@@ -27,6 +27,14 @@ function PlayState:update(dt)
     --Call each Zombies update Function
     for k, z in pairs(self.zombs) do
         z:update()
+        if z:collsion() == true then
+            table.remove(self.zombs, k)
+        end
+    end
+    if #self.zombs == 0 then
+        gStateMachine:change('victory', {
+            level = self.level + 1
+        })
     end
 end
 --Render Function
