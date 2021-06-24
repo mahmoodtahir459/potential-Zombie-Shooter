@@ -1,0 +1,8 @@
+{
+    "Lua.diagnostics.globals": [
+        "colorG",
+        "player1",
+        "width",
+        "x"
+    ]
+}
