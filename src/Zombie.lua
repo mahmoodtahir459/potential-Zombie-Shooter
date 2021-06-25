@@ -2,14 +2,14 @@
 Zombie = Class{}
 
 --Zombie Init
-function Zombie:init(x, y, width, height, dx, dy)
+function Zombie:init(x, y, width, height, d)
    --Declare Zombies Data
     self.x = x
    self.y = y
    self.width = width
    self.height = height
-   self.dx = dx
-   self.dy = dy
+   self.dx = d
+   self.dy = d
 end
 --Zombie Update
 function Zombie:update(dt)
