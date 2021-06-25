@@ -7,6 +7,7 @@ function Human:init(x, y, width, height)
     self.y = y
     self.width = width
     self.height = height
+    self.d = 3
 end
 --Update Function
 function Human:update(dt)
@@ -25,14 +26,14 @@ function Human:update(dt)
     end
     --Movement Controls
     if love.keyboard.isDown('w') then
-        self.y = self.y - 1
+        self.y = self.y - self.d
     elseif love.keyboard.isDown('s') then
-        self.y = self.y + 1
+        self.y = self.y + self.d
     end
     if love.keyboard.isDown('a') then
-        self.x = self.x - 1
+        self.x = self.x - self.d
     elseif love.keyboard.isDown('d') then
-        self.x = self.x + 1
+        self.x = self.x + self.d
     end
 end
 --Render Human

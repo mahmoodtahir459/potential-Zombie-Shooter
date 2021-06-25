@@ -3,13 +3,13 @@ Zombie = Class{}
 
 --Zombie Init
 function Zombie:init(x, y, width, height, d)
-   --Declare Zombies Data
+    --Declare Zombies Data
     self.x = x
-   self.y = y
-   self.width = width
-   self.height = height
-   self.dx = d
-   self.dy = d
+    self.y = y
+    self.width = width
+    self.height = height
+    self.dx = d
+    self.dy = d
 end
 --Zombie Update
 function Zombie:update(dt)
@@ -28,8 +28,8 @@ end
 --Zombie Render
 function Zombie:render()
     --Render Zombie
-   love.graphics.setColor(0, 127/255, 71, 1);
-   love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+    love.graphics.setColor(0, 127 / 255, 71, 1);
+    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 end
 function Zombie:collsion()
     if self.x > player.x + player.width or player.x > self.x + self.width then
@@ -38,5 +38,17 @@ function Zombie:collsion()
     if self.y > player.y + player.height or player.y > self.y + self.height then
         return false
     end
+    return true
+end
+function Zombie:collsionBul(bullets)
+    for k, bullet in pairs(bullets) do
+        if self.x > bullet.x + bullet.width or bullet.x > self.x + self.width then
+            return false
+        end
+        if self.y > bullet.y + bullet.width or bullet.y > self.y + self.height then
+            return false
+        end
+        table.remove(bullets,k)
         return true
+    end
 end
