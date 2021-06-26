@@ -4,18 +4,25 @@ require 'src/Dependencies'
 function love.load()
     --Fonts
     bebasFont = love.graphics.newFont('fonts/BebasNeue-Regular.ttf', 40)
+    targetPng = love.graphics.newImage('Images/Target.png');
+    gSounds = {
+        ['BulletShoot'] = love.audio.newSource('Sounds/BulletShoot.wav', 'static')
+    }
+    gImages = {
+        ['targetPng'] = love.graphics.newImage('Images/Target.png')
+    }
     --Randomseed
     math.randomseed(os.time())
     --HUMAN PLAYER
     player = Human(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2, 20, 20)
     --StateMachine
     gStateMachine = StateMachine{
-        --StartScreen Start
-        ['start'] = function() return StartState() end,
-        --Play State
-        ['play'] = function() return PlayState() end,
-        --Victory State
-        ['victory'] = function () return VictoryState()end
+            --StartScreen Start
+            ['start'] = function() return StartState() end,
+            --Play State
+            ['play'] = function() return PlayState() end,
+            --Victory State
+            ['victory'] = function() return VictoryState() end
     }
     --Grapgucs
     love.graphics.setDefaultFilter('nearest', 'nearest')

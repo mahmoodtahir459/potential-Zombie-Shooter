@@ -15,50 +15,33 @@ function PlayState:enter(params)
         --Insert into Table
         table.insert(self.zombs, z)
     end
+    self.bulletAllow = true
     self.bullets = {}
+    self.mouseX = 0
+    self.mouseY = 0
+    self.bulletTimer = 0
 end
 --Update Function
 function PlayState:update(dt)
+    love.mouse.setVisible(false)
+    self.bulletTimer = self.bulletTimer + dt
     --If Key pressed is Escape quit Game
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
-    --Create Bullet if Space Pressed
-    --Find Keys that are Pressed and GO that direction if No keys are pressed go East
-    if love.keyboard.wasPressed('space') then
-        if love.keyboard.isDown('w') and love.keyboard.isDown('a') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'wa')
+    
+    if love.mouse.isDown(1) then
+        if self.bulletTimer > 1 then
+            local bullet = Bullet(player.x, player.y)
             table.insert(self.bullets, bullet)
-        elseif love.keyboard.isDown('s') and love.keyboard.isDown('a') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'sa')
-            table.insert(self.bullets, bullet)
-        elseif love.keyboard.isDown('w') and love.keyboard.isDown('d') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'wd')
-            table.insert(self.bullets, bullet)
-        elseif love.keyboard.isDown('s') and love.keyboard.isDown('d') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'sd')
-            table.insert(self.bullets, bullet)
-        elseif love.keyboard.isDown('w') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'w')
-            table.insert(self.bullets, bullet)
-        elseif love.keyboard.isDown('s') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 's')
-            table.insert(self.bullets, bullet)
-        elseif love.keyboard.isDown('a') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'a')
-            table.insert(self.bullets, bullet)
-        elseif love.keyboard.isDown('d') then
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'd')
-            table.insert(self.bullets, bullet)
-        else
-            local bullet = Bullet(player.x + player.width / 2, player.y + player.height / 2, 'd')
-            table.insert(self.bullets, bullet)
+            gSounds['BulletShoot']:play()
+            self.bulletTimer = 0
         end
     end
     for k, bullet in pairs(self.bullets) do
         bullet:update()
         if bullet:collsion() == true then
-            table.remove(self.bullets,k)
+            table.remove(self.bullets, k)
         end
     end
     -- Call the Player Update
@@ -67,7 +50,7 @@ function PlayState:update(dt)
     for k, z in pairs(self.zombs) do
         z:update()
         if z:collsionBul(self.bullets) == true then
-            table.remove(self.zombs,k)
+            table.remove(self.zombs, k)
         end
     end
     if #self.zombs == 0 then
@@ -87,4 +70,6 @@ function PlayState:render()
     for k, z in pairs(self.zombs) do
         z:render()
     end
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.draw(gImages['targetPng'], love.mouse.getX(), love.mouse.getY())
 end

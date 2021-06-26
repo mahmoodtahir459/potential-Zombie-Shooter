@@ -8,6 +8,7 @@ function Human:init(x, y, width, height)
     self.width = width
     self.height = height
     self.d = 3
+    self.mousePres = false
 end
 --Update Function
 function Human:update(dt)
