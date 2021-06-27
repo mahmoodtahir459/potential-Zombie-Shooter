@@ -2,7 +2,7 @@
 Zombie = Class{}
 
 --Zombie Init
-function Zombie:init(x, y, width, height, d)
+function Zombie:init(x, y, width, height, d, player)
     --Declare Zombies Data
     self.x = x
     self.y = y
@@ -10,16 +10,17 @@ function Zombie:init(x, y, width, height, d)
     self.height = height
     self.dx = d
     self.dy = d
+    self.player = player
 end
 --Zombie Update
 function Zombie:update(dt)
     --Track player
-    if player.y > self.y then
+    if self.player.y > self.y then
         self.y = self.y + self.dy
     else
         self.y = self.y - self.dy
     end
-    if player.x > self.x then
+    if self.player.x > self.x then
         self.x = self.x + self.dx
     else
         self.x = self.x - self.dy
@@ -32,10 +33,10 @@ function Zombie:render()
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 end
 function Zombie:collsion()
-    if self.x > player.x + player.width or player.x > self.x + self.width then
+    if self.x > self.player.x + self.player.width or self.player.x > self.x + self.width then
         return false
     end
-    if self.y > player.y + player.height or player.y > self.y + self.height then
+    if self.y > self.player.y + self.player.height or self.player.y > self.y + self.height then
         return false
     end
     return true

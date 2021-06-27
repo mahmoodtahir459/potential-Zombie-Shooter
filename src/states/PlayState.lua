@@ -2,6 +2,10 @@ PlayState = Class{__includes = BaseState}
 
 --Initilize the playState
 function PlayState:enter(params)
+    --Get Score From Previous State
+    self.score = params.score
+    --Get Player From Previous State
+    self.player = params.player
     --Declare a Zombie table
     self.zombs = {}
     --Set the Current Level
@@ -11,14 +15,11 @@ function PlayState:enter(params)
     --Add Zombies to table
     for i = 0, diffculty do
         --random Functions for Spawning
-        local z = Zombie(math.random(800), math.random(600), 20, 20, math.random())
+        local z = Zombie(math.random(800), math.random(600), 20, 20, math.random(), self.player)
         --Insert into Table
         table.insert(self.zombs, z)
     end
-    self.bulletAllow = true
     self.bullets = {}
-    self.mouseX = 0
-    self.mouseY = 0
     self.bulletTimer = 0
 end
 --Update Function
@@ -32,7 +33,7 @@ function PlayState:update(dt)
     
     if love.mouse.isDown(1) then
         if self.bulletTimer > 1 then
-            local bullet = Bullet(player.x, player.y)
+            local bullet = Bullet(self.player.x, self.player.y)
             table.insert(self.bullets, bullet)
             gSounds['BulletShoot']:play()
             self.bulletTimer = 0
@@ -45,17 +46,20 @@ function PlayState:update(dt)
         end
     end
     -- Call the Player Update
-    player:update(dt)
+    self.player:update(dt)
     --Call each Zombies update Function
     for k, z in pairs(self.zombs) do
         z:update()
         if z:collsionBul(self.bullets) == true then
             table.remove(self.zombs, k)
+            self.score = self.score + 100
         end
     end
     if #self.zombs == 0 then
         gStateMachine:change('victory', {
-            level = self.level + 1
+            level = self.level + 1,
+            player = self.player,
+            score = self.score
         })
     end
 end
@@ -65,11 +69,12 @@ function PlayState:render()
         bullet:render()
     end
     --Player Render
-    player:render()
+    self.player:render()
     --Each Zombie Render
     for k, z in pairs(self.zombs) do
         z:render()
     end
+    love.graphics.printf('Score: ' .. self.score, 0, VIRTUAL_HEIGHT - 40, VIRTUAL_WIDTH, 'right')
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(gImages['targetPng'], love.mouse.getX(), love.mouse.getY())
 end

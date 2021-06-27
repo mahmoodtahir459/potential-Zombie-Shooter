@@ -1,14 +1,14 @@
 --Human Player Class
 Human = Class{}
 --Init Function
-function Human:init(x, y, width, height)
+function Human:init(x, y)
     --Declare Values of Human
     self.x = x
     self.y = y
-    self.width = width
-    self.height = height
     self.d = 3
     self.mousePres = false
+    self.width = gImages['Character']:getWidth()
+    self.height = gImages['Character']:getHeight()
 end
 --Update Function
 function Human:update(dt)
@@ -39,6 +39,5 @@ function Human:update(dt)
 end
 --Render Human
 function Human:render()
-    love.graphics.setColor(255/255, 81/255, 57/255, 1)
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+    love.graphics.draw(gImages['Character'], self.x, self.y)
 end

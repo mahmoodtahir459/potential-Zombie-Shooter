@@ -2,11 +2,17 @@
 --StartStae Inherits BaseState Functions
 StartState = Class{__includes = BaseState}
 --Start State Update Function
+function StartState:enter()
+    self.player = Human(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2)
+    self.score = 0
+end
 function StartState:update(dt)
     --If Enter Was pressed then change state to Play
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         gStateMachine:change('play', {
-            level = 1
+            level = 1,
+            player = self.player,
+            score = self.score
         })
     end
     --If escape is Pressed Quit Game
